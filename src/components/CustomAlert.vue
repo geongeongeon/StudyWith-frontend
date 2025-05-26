@@ -1,6 +1,6 @@
 <template>
   <transition name="fade">
-    <div class="modal fade show" tabindex="-1" role="dialog" style="display: block; background-color: rgba(0, 0, 0, 0.5)" v-if="show">
+    <div class="d-block modal fade show" tabindex="-1" role="dialog" style="background-color: rgba(0, 0, 0, 0.5)" v-if="show">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content text-center">
           <div class="modal-header bg-light">
@@ -9,7 +9,7 @@
           <div class="modal-body d-flex align-items-center justify-content-center" style="min-height: 80px;">
             <p class="m-0">{{ contant }}</p>
           </div>
-          <div class="modal-footer justify-content-center">
+          <div class="modal-footer justify-content-center bg-light">
             <button type="button" class="btn btn-secondary" @click="$emit('closeAlert')">확인</button>
           </div>
         </div>

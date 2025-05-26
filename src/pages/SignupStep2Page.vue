@@ -1,16 +1,19 @@
 <template>
   <div class="container d-flex justify-content-center align-items-center bg-light py-5">
     <div class="card p-5 shadow rounded w-100" style="max-width: 500px">
-      <h2 class="logo-text text-center mb-3 fw-bold">Sign Up</h2>
-      <p class="text-center text-muted mb-0">처음 오셨군요, 환영합니다!</p>
+      <h2 class="text-center mb-3 fw-bold">Sign Up</h2>
+      <div class="mx-auto progress mb-2 w-75" style="height: 5px;">
+        <div class="progress-bar bg-success w-100"></div>
+      </div>
+      <p class="text-center text-muted mb-0">시작하기 버튼을 클릭해 가입을 완료하세요!</p>
       <p class="text-center text-muted mb-4">아래 항목은 선택 사항이며, 미입력 시 기본값이 적용됩니다.</p>
 
       <div class="mb-3">
-        <label class="form-label fw-bold d-block">프로필사진 (선택)</label>
+        <label class="form-label fw-bold">프로필사진 (선택)</label>
         <div class="text-center">
-          <img :src="preview" class="border mb-2" style="width: 200px; height: 200px; object-fit: contain;"/>
+          <img id="profile-img" :src="preview" class="border" style="width: 200px; height: 200px; object-fit: contain;" @click="triggerFileInput"/>
         </div>
-        <input type="file" class="form-control" accept="image/*" @change="handleFileChange" />
+        <input class="form-control d-none" type="file" ref="fileInput" accept="image/*" @change="handleFileChange" />
       </div>
 
       <div class="mb-3">
@@ -25,7 +28,7 @@
 </template>
 
 <script setup>
-  import { ref } from 'vue'
+  import { nextTick, ref } from 'vue'
   import memberService from '../api/member-service'
   import { useRouter } from 'vue-router'
   import { useAlertStore } from '../stores/alertStore'
@@ -36,6 +39,12 @@
   const signupStore = useSignupStore()
 
   const preview = ref(signupStore.member.profileImage)
+  const fileInput = ref(null)
+
+  // 프로필 이미지 선택 시, 숨겨져있던 input 태그 클릭
+  const triggerFileInput = () => {
+    fileInput.value?.click()
+  }
 
   // 파일 선택 시 미리보기 이미지를 보여주고, 프로필 이미지로 저장
   const handleFileChange = (e) => {
@@ -54,8 +63,11 @@
   // 내용에 맞춰서 입력 필드 높이 조정
   const autoResize = (event) => {
     const textarea = event.target
-    textarea.style.height = 'auto'
-    textarea.style.height = textarea.scrollHeight + 'px'
+    
+    nextTick(() => {
+      textarea.style.height = 'auto'
+      textarea.style.height = textarea.scrollHeight + 'px'
+    })
   }
 
   // 뒤로가기
@@ -77,22 +89,17 @@
       };
 
       const formData = new FormData();
-
-      console.log(createMemberDTO)
       formData.append('memberCreateDTO', new Blob([JSON.stringify(createMemberDTO)], { type: 'application/json' }));
       if (signupStore.member.profileImage instanceof File) {
         formData.append('profileImage', signupStore.member.profileImage);
-      }
-
-      for (const [key, value] of formData.entries()) {
-        console.log(key, value);
       }
 
       const response = await memberService.createMember(formData)
 
       if (response.status === 201) {
         signupStore.resetMember()
-        router.replace('/')
+        sessionStorage.setItem('isLoggedIn', 'true');
+        router.replace('/');
       }
     } catch (error) {
       alertStore.showAlert(error.response.data.message)
@@ -101,4 +108,12 @@
 </script>
 
 <style scoped>
+  #profile-img {
+    transition: opacity 0.3s ease;
+    cursor: pointer;
+  }
+
+  #profile-img:hover {
+    opacity: 0.5;
+  }
 </style>

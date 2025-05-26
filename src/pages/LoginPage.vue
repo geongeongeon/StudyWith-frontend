@@ -14,9 +14,9 @@
 </template>
 
 <script setup>
-const login = (provider) => {
-  window.location.href = `http://localhost:8080/oauth2/authorization/${provider}`;
-}
+  const login = (provider) => {
+    window.location.href = `http://localhost:8080/oauth2/authorization/${provider}`;
+  }
 </script>
 
 <style scoped>

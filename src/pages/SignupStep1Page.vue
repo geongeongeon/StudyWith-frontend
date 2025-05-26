@@ -1,7 +1,10 @@
 <template>
   <div class="container d-flex justify-content-center align-items-center bg-light py-5">
     <div class="card p-5 shadow rounded w-100" style="max-width: 500px">
-      <h2 class="logo-text text-center mb-3 fw-bold">Sign Up</h2>
+      <h2 class="text-center mb-3 fw-bold">Sign Up</h2>
+      <div class="mx-auto progress mb-2 w-75" style="height: 5px;">
+        <div class="progress-bar bg-success w-50"></div>
+      </div>
       <p class="text-center text-muted mb-0">처음 오셨군요, 환영합니다!</p>
       <p class="text-center text-muted mb-4">서비스를 이용하기 위해 아래 정보를 입력해주세요.</p>
 
@@ -9,7 +12,7 @@
         <label class="form-label fw-bold">별명</label>
         <div class="input-group">
           <input type="text" class="form-control" :class="{ 'is-invalid': signupStore.isNicknameDuplicate === true, 'is-valid': signupStore.isNicknameDuplicate === false }" v-model="signupStore.member.nickname" maxlength="15" />
-          <button class="btn btn-outline-secondary" type="button" @click="checkNicknameDuplicate">중복 검사</button>
+          <button class="btn btn-outline-secondary" type="button" @click="checkNicknameDuplicate"><i class="bi bi-search"></i></button>
         </div>
       </div>
 
@@ -52,7 +55,7 @@
 </template>
 
 <script setup>
-  import { ref, watch } from 'vue'
+  import { watch } from 'vue'
   import { regionData } from '../data/region-data'
   import memberService from '../api/member-service';
   import { useRouter } from 'vue-router'
@@ -75,7 +78,7 @@
       signupStore.isNicknameDuplicate = false
     } catch (error) {
       signupStore.isNicknameDuplicate = true
-      alertStore.showAlert(error.response?.data?.message || '알 수 없는 오류 발생')
+      alertStore.showAlert(error.response?.data?.message || '알 수 없는 오류가 발생했습니다.')
     }
   }
 
@@ -95,7 +98,7 @@
 
   // 시/도 변경 시 시/군/구 초기화
   watch(() => signupStore.member.sido, () => {
-    signupStore.member.sigungu = '' // 시/도 변경 시 시/군/구 초기화
+    signupStore.member.sigungu = ''
   })
 
   // 다음으로 버튼 클릭 시 각 필드 유효성 검사 후 다음 단계로 이동
@@ -120,4 +123,17 @@
 </script>
 
 <style scoped>
+  .input-group > .btn {
+    flex-grow: 1;
+    max-width: 100px;
+  }
+
+  .input-group > input {
+    flex-grow: 4;
+  }
+
+  .input-group .form-control,
+  .input-group .btn-outline-secondary {
+    border-color: #ced4da;
+  }
 </style>
