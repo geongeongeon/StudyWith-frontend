@@ -69,7 +69,7 @@
   // 닉네임 중복 체크
   const checkNicknameDuplicate = async () => {
     if (!signupStore.member.nickname?.trim()) {
-      alertStore.showAlert('별명을 입력해주세요.')
+      alertStore.showFailedAlert('별명을 입력해주세요.')
       return
     }
 
@@ -78,7 +78,7 @@
       signupStore.isNicknameDuplicate = false
     } catch (error) {
       signupStore.isNicknameDuplicate = true
-      alertStore.showAlert(error.response?.data?.message || '알 수 없는 오류가 발생했습니다.')
+      alertStore.showFailedAlert(error.response?.data?.message || '오류가 발생했습니다.')
     }
   }
 
@@ -104,21 +104,21 @@
   // 다음으로 버튼 클릭 시 각 필드 유효성 검사 후 다음 단계로 이동
   const goToNextStep = () => {
     if (!signupStore.member.nickname.trim() || !signupStore.member.gender || !signupStore.member.birth || !signupStore.member.sido || !signupStore.member.sigungu) {
-      alertStore.showAlert('모든 필드를 입력해주세요.')
+      alertStore.showFailedAlert('모든 필드를 입력해주세요.')
       return
     }
 
     if (signupStore.isNicknameDuplicate === null) {
-      alertStore.showAlert('별명 중복 검사를 해주세요.')
+      alertStore.showFailedAlert('별명 중복 검사를 해주세요.')
       return
     }
 
     if (signupStore.isNicknameDuplicate === true) {
-      alertStore.showAlert('별명이 중복됩니다.')
+      alertStore.showFailedAlert('별명이 중복됩니다.')
       return
     }
 
-    router.push('/signup/step2')
+    router.push('/auth/signup/step2')
   }
 </script>
 

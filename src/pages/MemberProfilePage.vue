@@ -49,7 +49,7 @@
 
         <div class="mb-3">
           <label class="form-label fw-bold">자기소개</label>
-          <textarea class="form-control" v-model="tempProfile.bio" maxlength="100" placeholder="100자 이내로 입력하세요." style="resize: none; overflow: hidden;" @input="autoResize"></textarea>
+          <textarea class="form-control" v-model="tempProfile.bio" maxlength="100" placeholder="100자 이내로 입력하세요." style="resize: none; overflow: hidden" ref="bioTextarea" @input="autoResize"></textarea>
         </div>
       </div>
 
@@ -104,14 +104,19 @@
   const fileInput = ref(null)
   const tempProfile = ref({})
   const preview = ref('')
-  let initialized = ref(true)
+  const initialized = ref(true)
+  const bioTextarea = ref(null)
 
   // 페이지가 로드될 때
-  onMounted(async () => {
+  onMounted(async (event) => {
     const response = await memberService.getMemberDetail()
     profileStore.setProfile(response.data.data)
     tempProfile.value = { ...profileStore.member }
     preview.value = profileStore.member.profileImage
+
+    nextTick(() => {
+      autoResize()
+    })
   })
 
   // 프로필 이미지 선택 시, 숨겨져있던 input 태그 클릭
@@ -136,12 +141,12 @@
   // 닉네임 중복 체크
   const checkNicknameDuplicate = async () => {
     if (tempProfile.value.nickname === profileStore.member.nickname) {
-      alertStore.showAlert('기존의 별명과 동일합니다. 다른 별명을 입력해주세요.')
+      alertStore.showFailedAlert('기존의 별명과 동일합니다. 다른 별명을 입력해주세요.')
       return
     }
 
     if (!tempProfile.value.nickname?.trim()) {
-      alertStore.showAlert('별명을 입력해주세요.')
+      alertStore.showFailedAlert('별명을 입력해주세요.')
       return
     }
 
@@ -150,7 +155,7 @@
       profileStore.isNicknameDuplicate = false
     } catch (error) {
       profileStore.isNicknameDuplicate = true
-      alertStore.showAlert(error.response?.data?.message || '알 수 없는 오류가 발생했습니다.')
+      alertStore.showFailedAlert(error.response?.data?.message || '오류가 발생했습니다.')
     }
   }
 
@@ -160,13 +165,13 @@
   })
 
   // 내용에 맞춰서 입력 필드 높이 조정
-  const autoResize = (event) => {
-    const textarea = event.target
+  const autoResize = () => {
+    const textarea = bioTextarea.value
 
-    nextTick(() => {
+    if (textarea) {
       textarea.style.height = 'auto'
       textarea.style.height = textarea.scrollHeight + 'px'
-    })
+    }
   }
 
   // 시/도 변경 시 시/군/구 초기화
@@ -193,7 +198,7 @@
       && profileStore.member.sido === tempProfile.value.sido
       && profileStore.member.sigungu === tempProfile.value.sigungu
       && profileStore.member.bio === tempProfile.value.bio) {
-        alertStore.showAlert('변경 내역이 없습니다.')
+        alertStore.showFailedAlert('변경 내역이 없습니다.')
         return
       }
 
@@ -217,7 +222,7 @@
       profileStore.setProfile(response.data.data)
       window.location.reload()
     } catch (error) {
-      alertStore.showAlert('회원 정보 변경에 실패하였습니다.')
+      alertStore.showFailedAlert(error.response?.data?.message || '오류가 발생했습니다.')
     }
   }
 </script>
@@ -241,8 +246,7 @@
     flex-grow: 4;
   }
 
-  .input-group .form-control,
-  .input-group .btn-outline-secondary {
+  .input-group .form-control,.input-group .btn-outline-secondary {
     border-color: #ced4da;
   }
 </style>

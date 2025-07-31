@@ -102,7 +102,7 @@
         router.replace('/');
       }
     } catch (error) {
-      alertStore.showAlert(error.response.data.message)
+      alertStore.showFailedAlert(error.response?.data?.message || '오류가 발생했습니다.')
     }
   }
 </script>

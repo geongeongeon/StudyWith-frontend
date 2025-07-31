@@ -1,6 +1,5 @@
 <template>
   <div class="container p-3 text-center">
-    <button class="btn btn-dark mx-auto mb-3" @click="callConnectionTest">백앤드 연결 테스트</button>
     <div>
       <img class="img-fluid" src="/home.jpg" alt="">
     </div>
@@ -11,17 +10,18 @@
   import connectionTest from '../api/connection-test'
   import { onMounted } from 'vue';
   import router from '../router';
+  import { useAlertStore } from '../stores/alertStore';
 
-  const callConnectionTest = async () => {
+  const alertStore = useAlertStore();
+
+  onMounted(async () => {
     try {
       const res = await connectionTest.testConnection()
-      alert(res.data.message)
-    } catch (err) {
-      alert(err.response.data.message)
+      console.log(res.data.message)
+    } catch (error) {
+      alertStore.showFailedAlert(error.response?.data?.message || '오류가 발생했습니다.')
     }
-  }
 
-  onMounted(() => {
     const params = new URLSearchParams(window.location.search);
     const status = params.get('status');
     if (status === '200') {
