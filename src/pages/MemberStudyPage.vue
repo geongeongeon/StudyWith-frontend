@@ -15,7 +15,7 @@
         <div class="card-wrapper" v-for="(study, index) in createList" :key="index" @click="showDetail(study.id)">
           <div class="card rounded-3 card-container">
             <div class="card-inner">
-                <img class="card-img-top border-bottom" style="width: 310px; height: 200px; object-fit: cover;" :src="`http://localhost:8080${study.thumbnailImage}`" />
+                <img class="card-img-top border-bottom" style="width: 310px; height: 200px; object-fit: cover;" :src="`${study.thumbnailImage}`" />
                 <div class="card-body py-2">
                   <div class="card-title mb-1 fw-bold text-truncate overflow-hidden text-nowrap">{{ study.title }}</div>
                 </div>
@@ -35,7 +35,7 @@
         <div class="card-wrapper" v-for="(study, index) in joinList" :key="index" @click="showDetail(study.id)">
           <div class="card rounded-3 card-container">
             <div class="card-inner">
-                <img class="card-img-top border-bottom" style="width: 310px; height: 200px; object-fit: cover;" :src="`http://localhost:8080${study.thumbnailImage}`" />
+                <img class="card-img-top border-bottom" style="width: 310px; height: 200px; object-fit: cover;" :src="`${study.thumbnailImage}`" />
                 <div class="card-body py-2">
                   <div class="card-title mb-1 fw-bold text-truncate overflow-hidden text-nowrap">{{ study.title }} </div>
                 </div>

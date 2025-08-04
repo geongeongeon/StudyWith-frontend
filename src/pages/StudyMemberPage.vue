@@ -23,7 +23,7 @@
               <i class="fas fa-crown fs-4" :title="'부관리자'" style="color: hotpink"></i>
             </div>
 
-            <img :src="`http://localhost:8080${member.profileImage}`" class="rounded-circle" style="width: 125px; height: 125px; object-fit: cover"/>
+            <img :src="`${member.profileImage}`" class="rounded-circle" style="width: 125px; height: 125px; object-fit: cover"/>
 
             <!-- 점 3개 버튼 -->
             <div id="btn_plus" v-if="member.nickname !== authStore.nickname" @click.stop="toggleMenu(index)">

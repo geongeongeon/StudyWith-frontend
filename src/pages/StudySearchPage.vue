@@ -76,7 +76,7 @@
               <!-- 앞면 -->
               <div class="card-front h-100 w-100" :class="{ 'd-none': study.hover }">
                 <span class="badge bg-dark p-2 position-absolute rounded-0 shadow-lg" style="top: 10px; left: 10px; z-index: 10;">{{ study.isRecruit ? '모집중' : '' }}</span>
-                <img class="card-img-top border-bottom" style="height: 200px; object-fit: cover;" :src="`http://localhost:8080${study.thumbnailImage}`" />
+                <img class="card-img-top border-bottom" style="height: 200px; object-fit: cover;" :src="`${study.thumbnailImage}`" />
                 <div class="card-body py-2">
                   <div class="card-title mb-1 fw-bold text-truncate overflow-hidden text-nowrap">{{ study.title }}</div>
                   <div class="card-text text-muted text-truncate overflow-hidden text-nowrap">{{ study.region }}</div>

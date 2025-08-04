@@ -4,14 +4,13 @@
       <ul class="navbar-nav d-flex justify-content-end flex-row w-100 px-3">
         <li class="nav-item d-flex align-items-center justify-content-center" v-if="authStore.isAuthenticated">
           <div class="d-flex align-items-center" style="height: 40px;">
-            <img :src="`http://localhost:8080${authStore.profileImage}`" style="width: 35px; height: 35px; object-fit: cover;" />
+            <img :src="`${authStore.profileImage}`" style="width: 35px; height: 35px; object-fit: cover;" />
             <p class="mb-0 ms-2" v-text=authStore.nickname></p>
           </div>
         </li>
         <li class="nav-item" v-if="authStore.isAuthenticated">
           <button class="nav-link mx-2 py-0 message-box-btn"  @click="showListModal = true">
             <i class="bi bi-envelope-fill d-inline-flex px-0 message-box"></i>
-            <i class="bi bi-envelope-open-fill d-inline-flex px-0 message-box"></i>
           </button>
         </li>
 

@@ -14,7 +14,7 @@
               <div class="row align-items-center">
                 <!-- 프로필 이미지 -->
                 <div class="col-auto" style="position: relative;">
-                  <img :src="`http://localhost:8080${message.senderProfileImage}`" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover;"/>
+                  <img :src="`${message.senderProfileImage}`" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover;"/>
                 </div>
 
                 <!-- 보낸 사람 + 스터디 + 제목 + 내용 + 보낸 시간 + 읽음 여부 -->

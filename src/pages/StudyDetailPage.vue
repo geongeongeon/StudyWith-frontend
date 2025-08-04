@@ -13,7 +13,7 @@
             </label>
           </div>
 
-          <img :src="`http://localhost:8080${study.thumbnailImage}` "class="img-thumbnail"  style="width: 200px; height: 200px; object-fit: cover;" />
+          <img :src="`${study.thumbnailImage}` "class="img-thumbnail"  style="width: 200px; height: 200px; object-fit: cover;" />
 
           <div class="mt-2 mb-3">
             <span class="badge bg-secondary me-1 rounded-5" v-for="(tag, index) in study.tags" :key="index">{{ tag }}</span>

@@ -23,7 +23,7 @@ export const useProfileStore = defineStore('profile', {
       const [sido, sigungu] = parsed.region.split(' ')
       parsed.sido = sido
       parsed.sigungu = sigungu
-      parsed.profileImage = `http://localhost:8080${parsed.profileImage}`
+      parsed.profileImage = `${parsed.profileImage}`
 
       this.member = { ...this.member, ...parsed }
     }

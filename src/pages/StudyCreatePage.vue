@@ -14,7 +14,7 @@
 
       <div class="mb-3">
         <label class="form-label fw-bold">스터디 이름</label>
-        <input v-model="form.title" type="text" class="form-control" required />
+        <input v-model="form.title" type="text" class="form-control" maxlength="20" required />
       </div>
 
       <div class="mb-3">
@@ -130,6 +130,23 @@
   })
 
   const createStudy = async () => {
+    if (!form.title.trim()) {
+      alertStore.showFailedAlert('스터디 이름을 입력하세요.');
+      return;
+    }
+    if (!form.description.trim()) {
+      alertStore.showFailedAlert('스터디 소개를 입력하세요.');
+      return;
+    }
+    if (!form.sido) {
+      alertStore.showFailedAlert('시/도를 선택하세요.');
+      return;
+    }
+    if (!form.sigungu) {
+      alertStore.showFailedAlert('시/군/구를 선택하세요.');
+      return;
+    }
+
     const studyCreateDTO = {
       title: form.title,
       description: form.description,

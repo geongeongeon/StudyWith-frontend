@@ -12,7 +12,7 @@
               <div class="row align-items-center">
                 <!-- 프로필 이미지 -->
                 <div class="col-auto">
-                  <img :src="`http://localhost:8080${request.profileImage}`" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover;" />
+                  <img :src="`${request.profileImage}`" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover;" />
                 </div>
 
                 <!-- 닉네임 + 정보 -->
