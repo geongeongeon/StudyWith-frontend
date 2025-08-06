@@ -20,7 +20,9 @@ export const useProfileStore = defineStore('profile', {
     setProfile(data) {
       const parsed = { ...data }
 
-      const [sido, sigungu] = parsed.region.split(' ')
+      const splitedRegion = parsed.region.split(' ')
+      const sido = splitedRegion[0] || ''
+      const sigungu = splitedRegion.slice(1).join(' ') || ''
       parsed.sido = sido
       parsed.sigungu = sigungu
       parsed.profileImage = `${parsed.profileImage}`
